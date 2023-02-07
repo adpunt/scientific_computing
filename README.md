@@ -11,30 +11,29 @@ Before we look into the algorithm, we must first understand minimum spanning tre
 
 We start out with an undirected weighted graph, consisting of vertices, edges, and edge weights. A spanning tree is a subgraph that connects all the vertices of a graph. The MST is a spanning tree such that the sum of the edge weights, or the distance, is minimised. 
 
-In this example, we start out with an undirected weighted graph. 
+In this example, we start out with the following directed weighted graph. 
 
-![OG graph](/og_graph.png)
+![OG graph](/og_graph_directed.png)
 
-The MST for this graph is shown below, with weight 29. Note that this MST contains every single vertex from the original graph. 
+The MST for this graph is shown below, with weight 19. Note that this MST contains every single vertex from the original graph and all edges were considered undirected.
 
-![MST](/mst.png)
+![MST](/min_spanning_tree.png)
 
 ## Shortest Path
 
 We start out with a weighted graph, either directed or undirected. The shortest path between two vertices is defined as the path along the graph such that the sum of the edge weights, or the distance, is minimised. 
 
-Using the same graph as before, we can observe that the shortest path between vertices `A` and `I` is shown below, with path length 10. 
+Using the same graph as before, we can observe that the shortest path between vertices `1` and `4` is shown below, with path length 10. CHANGE THIS
 
-![shortest_path](/shortest_path.png)
+![shortest_path](/shortest_path_1_4.png)
 
 ### Prim's and Dijkstra's Algorithms
 
 Prim's algorithm is a greedy algorithm that finds the minimum spanning tree for an undirected weighted graph. It starts at one vertex, and adds onto that vertex by looking at the cheapest possible path to go next. It repeats this process until it has spanned the entire graph. 
 
 
-Dijkstra's algorithm is an algorithm that finds the shortest path of either a directed or undirected graph. However, the graph cannot have negative edge weights. It's implementation is similiar to Prim's in takes a greedy approach. It starts at a source vertex and calculates the shortest distance from each vertex to the source. For each calculated distance, it saves the value if it finds a shorter path that the path that it had saved before. Once Dijkstra’s algorithm has found the shortest path between the source vertex and another vertex, it marks this other vertex as visited. It repeats the process until all vertices are visited. 
+Dijkstra's algorithm is an algorithm that finds the shortest path of a directed graph. However, the graph cannot have negative edge weights. It's implementation is similiar to Prim's such that it takes a greedy approach. It starts at a source vertex and calculates the shortest distance from each vertex to the source. For each calculated distance, it saves the value if it finds a shorter path that the path that it had saved before. Once Dijkstra’s algorithm has found the shortest path between the source vertex and another vertex, it marks this other vertex as visited. It repeats the process until all vertices are visited. 
 
-In the case of a weighted graph, which this implementation does not cover, the paths that Dijkstra's algorithm explores are limited by the direction of the edges.
 
 ### Implementation
 
@@ -54,12 +53,46 @@ Dijkstra's Algorithm
 a. Extract the vertex with minimum distance value node from Min Heap. Let the extracted vertex be u. 
 b. For every adjacent vertex v of u, check if v is in Min Heap. If v is in Min Heap and the distance value is more than **the weight of u-v plus the distance value of u**, then update the distance value of v.
 
-Note that the only difference between these algorithm's is in the decision to update the distance value at each vertex. In the case of Prim's algorithm, we're checking to see if the distance value is more than the weight of u-v, whereas in Dijkstra's algorithm, we're checking to see if the distance value is more than the weight of u-v plus the distance of u. 
+Note that the only difference between these algorithms is in the decision to update the distance value in the Min Heap at each vertex. In the case of Prim's algorithm, we're checking to see if the distance value is more than the weight of u-v, whereas in Dijkstra's algorithm, we're checking to see if the distance value is more than the weight of u-v plus the distance of u. 
+
+### Running Code
+
+To run this code download the repo and execute the `PrimDijkstra.py` script from the command line
+```
+git clone https://github.com/adpunt/scientific_computing.git
+python -i PrimDijkstra.py
+```
+
+Now, you want to define your graph. The graph should be in the form of an adjaceny list. Each inner list represents a vertex with it's adjacent vertices and edge weights. These adjacent vertices and edge weights should be in the form of tuples with the structure `(<adjacent_vertex>, <edge_weight>)`. This graph will be directed. However, if you choose to use Prim's algorithm, it will be considered undirected. 
+
+For example, the graph from above would have the following structure:
+```
+graph = [ [],
+           [(2, 4), (6, 2)],
+           [(1, 4), (6, 3), (5, 4), (3, 7)],
+           [(2, 7), (5, 4), (4, 9)],
+           [(3, 9), (5, 6)],
+           [(6, 8), (2, 4), (3, 4), (4, 6)],
+           [(1, 2), (2, 3), (5, 8)]]
+```
+
+Note that first `[]` index represents that vertex `0`, as represented by the graph above.
+
+Once your graph is defined, you can choose to run either Prim's algorithm to find the MST of the undirected version of the graph, or Dijkstra's algorithm to find the shortest path of the directed version of the graph.
+
+To run Prim's algorithm, call `PrimDijkstra(<graph>, <start_vertex>, 'P')`. This will return an adjaceny list of the minimum spanning tree, represented as a graph with edges emanating from the start vertex. 
+
+To run Dijkstra's algorithm, either call `PrimDijkstra(<graph>, <start_vertex>, 'D')`, which will return a shortest path tree emanating from the start vertex, or `navigate(<graph>, <start_vertex>, <end_vertex>`, which will return the shortest path between the start and end vertices. 
 
 
-<!-- How to run algorithms -->
+### Complexity
+Due to the similar nature of the implementation, the time complexity of these algorithms is the same. For a graph with `V` vertices and `E` edges, the inner loop statements, where for every vertex we check its adjacent vertices, occurs `O(V + E)` times. `O(V + E)`. Traversing the Min Heap to find the lowest value takes `O(logV)` time, due to the structure of the Min Heap. Combining these, we get `O((V + E)*log(V)`. However, 
 
+TODO: FINISH THIS
+Use wikipedia as a reference
+Explain why min heaps are used for implementation
 
-<!-- running time, time and space complexity -->
 
 <!-- uses of these algorithms -->
+
+
