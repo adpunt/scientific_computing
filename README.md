@@ -1,13 +1,13 @@
 # Prim's and Dijkstra's Algorithms
 
-This repo provides an implementation of and comparison between Prim's and Dijkstra's algorithms. Both are graph optimisation algorithims, although each have slightly different implementations and uses. 
+An implementation of Prim's and Dijkstra's algorithms. Both are graph optimisation algorithims, although each have slightly different implementations and uses. 
 
 
-### Background
+## Background
 
 Before we look into the algorithm, we must first understand minimum spanning trees (MSTs) and the idea of a shortest path. 
 
-## Minimum Spanning Trees
+### Minimum Spanning Trees
 
 We start out with an undirected weighted graph, consisting of vertices, edges, and edge weights. A spanning tree is a subgraph that connects all the vertices of a graph. The MST is a spanning tree such that the sum of the edge weights, or the distance, is minimised. 
 
@@ -19,15 +19,15 @@ The MST for this graph is shown below, with weight 19. Note that this MST contai
 
 ![MST](/min_spanning_tree.png)
 
-## Shortest Path
+### Shortest Path
 
 We start out with a weighted graph, either directed or undirected. The shortest path between two vertices is defined as the path along the graph such that the sum of the edge weights, or the distance, is minimised. 
 
-Using the same graph as before, we can observe that the shortest path between vertices `1` and `4` is shown below, with path length 10. CHANGE THIS
+Using the same graph as before, we can observe that the shortest path between vertices `1` and `4` is shown below, with path length 14.
 
 ![shortest_path](/shortest_path_1_4.png)
 
-### Prim's and Dijkstra's Algorithms
+## Prim's and Dijkstra's Algorithms
 
 Prim's algorithm is a greedy algorithm that finds the minimum spanning tree for an undirected weighted graph. It starts at one vertex, and adds onto that vertex by looking at the cheapest possible path to go next. It repeats this process until it has spanned the entire graph. 
 
@@ -43,19 +43,19 @@ Prim's Algorithm
 1. Create a Min Heap of size V where V is the number of vertices in the graph. Every node of the min-heap contains the vertex number and distance value of the vertex. 
 2. Initialize Min Heap with source vertex as root (the distance value assigned to source vertex is 0). The distance value assigned to all other vertices is infinite. 
 3. While Min Heap is not empty, do the following:
-a. Extract the vertex with minimum distance value node from Min Heap. Let the extracted vertex be u. 
-b. For every adjacent vertex v of u, check if v is in Min Heap. If v is in Min Heap and the distance value is more than **the weight of u-v**, then update the distance value of v.
+    1. Extract the vertex with minimum distance value node from Min Heap. Let the extracted vertex be u. 
+    2. For every adjacent vertex v of u, check if v is in Min Heap. If v is in Min Heap and the distance value is more than **the weight of u-v**, then update the distance value of v.
 
 Dijkstra's Algorithm
 1. Create a Min Heap of size V where V is the number of vertices in the graph. Every node of the min-heap contains the vertex number and distance value of the vertex. 
 2. Initialize Min Heap with source vertex as root (the distance value assigned to source vertex is 0). The distance value assigned to all other vertices is infinite. 
 3. While Min Heap is not empty, do the following:
-a. Extract the vertex with minimum distance value node from Min Heap. Let the extracted vertex be u. 
-b. For every adjacent vertex v of u, check if v is in Min Heap. If v is in Min Heap and the distance value is more than **the weight of u-v plus the distance value of u**, then update the distance value of v.
+    1. Extract the vertex with minimum distance value node from Min Heap. Let the extracted vertex be u. 
+    2. For every adjacent vertex v of u, check if v is in Min Heap. If v is in Min Heap and the distance value is more than **the weight of u-v plus the distance value of u**, then update the distance value of v.
 
 Note that the only difference between these algorithms is in the decision to update the distance value in the Min Heap at each vertex. In the case of Prim's algorithm, we're checking to see if the distance value is more than the weight of u-v, whereas in Dijkstra's algorithm, we're checking to see if the distance value is more than the weight of u-v plus the distance of u. 
 
-### Running Code
+## Running Code
 
 To run this code download the repo and execute the `PrimDijkstra.py` script from the command line
 ```
@@ -85,14 +85,18 @@ To run Prim's algorithm, call `PrimDijkstra(<graph>, <start_vertex>, 'P')`. This
 To run Dijkstra's algorithm, either call `PrimDijkstra(<graph>, <start_vertex>, 'D')`, which will return a shortest path tree emanating from the start vertex, or `navigate(<graph>, <start_vertex>, <end_vertex>`, which will return the shortest path between the start and end vertices. 
 
 
-### Complexity
-Due to the similar nature of the implementation, the time complexity of these algorithms is the same. For a graph with `V` vertices and `E` edges, the inner loop statements, where for every vertex we check its adjacent vertices, occurs `O(V + E)` times. `O(V + E)`. Traversing the Min Heap to find the lowest value takes `O(logV)` time, due to the structure of the Min Heap. Combining these, we get `O((V + E)*log(V)`. However, 
+## Complexity
+Due to the similar nature of the implementation, the time complexity of these algorithms is the same. 
 
-TODO: FINISH THIS
-Use wikipedia as a reference
-Explain why min heaps are used for implementation
+For a graph with `V` vertices and `E` edges, for each vertex, we find the adjacent vertex with the shortest edge weight. This operation is just a linear search of the adjacency matrix, taking `O(E)` time. Updating distance value of this adjacent vertex would seemingly take `O(V)` time. If these algorithms were implemented with only adjacency matrices, this would be the case. However, due to the strucutre of the Min Heap, we can complete this operation in only `O(logV)` time. This leaves us with a time complexity of `O(E*log(V))`. 
 
 
-<!-- uses of these algorithms -->
+## Applications
 
+These two algorithms have many real-world applications. 
+
+Prim's Algorithm, or any algorithm involved in the calculation of MSTs, can be used in network design. Such networks include computer networks, transportation networks, water supply networks, electrical grids, irrigation channels, fibre-optic grids, and so on. MSTs even have applications in biology; they are used in [molecular epidemiology research to estimate relationships among individual strains or isolates](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3187300/).
+
+
+Dijkstra's Algorithm, or any algorithm involving in the calculation of shortest paths, can be used in mapping. An obvious example is finding the least possible geographical distance on a map, useful for tools like Google Maps. It can also be used in telephone networks, where it can decrease the obstacles taken place for transmission. Shortest path algorithms also have applications in biology, where they can be used to [count the number of shortest paths between pairs of genes in biological networks](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-018-2480-z).
 
